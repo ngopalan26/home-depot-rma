@@ -35,6 +35,11 @@ management:
       exposure:
         include: health,info,metrics
 
+# AI Configuration
+openai:
+  api:
+    key: ${OPENAI_API_KEY:demo-key}
+
 springdoc:
   api-docs:
     path: /api-docs

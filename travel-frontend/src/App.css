@@ -1,0 +1,89 @@
+.App {
+  text-align: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.App-header {
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Loading animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .App {
+    padding: 0;
+  }
+  
+  main {
+    padding: 10px !important;
+  }
+}
+
+/* Priority indicators */
+.priority-high {
+  color: #d32f2f;
+  font-weight: bold;
+}
+
+.priority-medium {
+  color: #ed6c02;
+  font-weight: 500;
+}
+
+.priority-low {
+  color: #2e7d32;
+}
+
+/* Weather icons */
+.weather-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
+/* Card hover effects */
+.card-hover:hover {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease-in-out;
+}

@@ -3,13 +3,13 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Container, AppBar, Toolbar, Typography, Box } from '@mui/material';
-import { orange } from '@mui/material/colors';
 
 import LoginPage from './pages/LoginPage';
 import ReturnDashboard from './pages/ReturnDashboard';
 import CreateReturn from './pages/CreateReturn';
 import TrackReturn from './pages/TrackReturn';
 import OrderLookup from './pages/OrderLookup';
+import Chatbot from './components/Chatbot';
 
 const theme = createTheme({
   palette: {
@@ -54,6 +54,9 @@ function App() {
               <Route path="/order-lookup" element={<OrderLookup />} />
             </Routes>
           </Container>
+          
+          {/* AI Chatbot - Available on all pages */}
+          <Chatbot />
         </Box>
       </Router>
     </ThemeProvider>

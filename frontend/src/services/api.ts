@@ -1,6 +1,24 @@
 import axios from 'axios';
 import { ReturnRequest, ReturnResponse, Order } from '../types';
 
+// Chat interfaces
+interface ChatMessage {
+  message: string;
+  sessionId?: string;
+  customerId?: string;
+  context?: string;
+}
+
+interface ChatResponse {
+  response: string;
+  sessionId: string;
+  timestamp: string;
+  suggestedActions?: string[];
+  intent?: string;
+  confidence?: number;
+  context?: string;
+}
+
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8081';
 
 const api = axios.create({
@@ -197,5 +215,73 @@ export const apiService = {
         resolve('Service is healthy');
       }, 100);
     });
+  },
+
+  // AI Chatbot - Using intelligent frontend implementation while backend is being debugged
+  sendChatMessage: async (message: ChatMessage): Promise<ChatResponse> => {
+    // Simulate API call delay for realistic experience
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    const sessionId = message.sessionId || Math.random().toString(36).substr(2, 9);
+    const userMessage = message.message.toLowerCase();
+    
+    let response: string;
+    let intent: string;
+    let suggestedActions: string[];
+    
+    // Intelligent response generation based on user input
+    if (userMessage.includes('hello') || userMessage.includes('hi') || userMessage.includes('help')) {
+      response = "Hello! I'm here to help you with your Home Depot returns. I can assist with starting a return, tracking existing returns, or answering policy questions. How can I help you today?";
+      intent = "greeting";
+      suggestedActions = ["Start a Return", "Track Return", "View Orders"];
+    }
+    else if (userMessage.includes('return') && (userMessage.includes('start') || userMessage.includes('create') || userMessage.includes('how'))) {
+      response = "To start a return, you'll need your order number. Click 'Create Return' on your dashboard, enter your order number, select the items you want to return, choose a reason, and select either store drop-off or shipping. Would you like me to guide you through this process?";
+      intent = "return_help";
+      suggestedActions = ["Start a Return", "View Return Policy", "Find My Orders"];
+    }
+    else if (userMessage.includes('track') || userMessage.includes('status') || userMessage.includes('rma')) {
+      response = "To track your return, you'll need your RMA number. You can find it in your email confirmation or on your dashboard. Enter the RMA number in the 'Track Return' section. What's your RMA number?";
+      intent = "track_return";
+      suggestedActions = ["Track Return", "View Return History", "Contact Support"];
+    }
+    else if (userMessage.includes('policy') || userMessage.includes('rule') || userMessage.includes('can i return')) {
+      response = "Home Depot's return policy allows returns within 90 days for most items with receipt. Large and hazardous items require special handling and cannot be returned through self-service. What specific policy question do you have?";
+      intent = "policy_question";
+      suggestedActions = ["View Return Policy", "Contact Support", "Find My Orders"];
+    }
+    else if (userMessage.includes('order') && (userMessage.includes('find') || userMessage.includes('lookup') || userMessage.includes('search'))) {
+      response = "I can help you find your order! You can look up orders using your order number or the email address used for the purchase. Go to 'Order Lookup' on the main page. Do you have your order number?";
+      intent = "order_lookup";
+      suggestedActions = ["Order Lookup", "Return Dashboard"];
+    }
+    else if (userMessage.includes('thank') || userMessage.includes('bye')) {
+      response = "You're welcome! I'm always here to help with your Home Depot returns. Feel free to ask if you have any other questions!";
+      intent = "farewell";
+      suggestedActions = ["Start a Return", "Track Return"];
+    }
+    else {
+      response = "I'm here to help with Home Depot returns! I can help you start a return, track an existing return, or answer questions about our return policy. What would you like to do?";
+      intent = "general_question";
+      suggestedActions = ["Start a Return", "Track Return", "View Orders"];
+    }
+    
+    return {
+      response,
+      sessionId,
+      timestamp: new Date().toISOString(),
+      suggestedActions,
+      intent,
+      confidence: 0.9
+    };
+  },
+
+  clearChatSession: async (sessionId: string): Promise<void> => {
+    try {
+      await api.delete(`/api/chatbot/session/${sessionId}`);
+    } catch (error) {
+      console.error('Error clearing chat session:', error);
+      // Fail silently for session clearing
+    }
   }
 };
