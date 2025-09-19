@@ -61,11 +61,9 @@ http {
             add_header Cache-Control "public, immutable";
         }
 
-        # API proxy (will be configured via environment variable)
+        # API proxy (configured via environment variable)
         location /api/ {
-            # Use environment variable for backend URL, fallback to placeholder
-            set $backend_url "http://localhost:8081";
-            proxy_pass $backend_url/api/;
+            proxy_pass ${BACKEND_URL}/api/;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
