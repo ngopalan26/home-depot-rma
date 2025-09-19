@@ -6,7 +6,24 @@ import {
   HealthResponse 
 } from '../types';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8081/api';
+// Determine the API base URL based on the current host
+const getApiBaseUrl = () => {
+  if (process.env.REACT_APP_API_URL) {
+    return process.env.REACT_APP_API_URL;
+  }
+  
+  // If running through ngrok, we need to use the backend URL directly
+  if (window.location.hostname.includes('ngrok')) {
+    // For now, we'll use localhost since the proxy isn't working
+    // In production, this would be the backend ngrok URL
+    return 'http://localhost:8081/api';
+  }
+  
+  // For local development, use localhost
+  return 'http://localhost:8081/api';
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 const api = axios.create({
   baseURL: API_BASE_URL,

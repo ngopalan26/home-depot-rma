@@ -54,10 +54,11 @@ public class WeatherService {
     
     private String buildWeatherUrl(Location location, LocalDate date) {
         String locationParam = buildLocationParameter(location);
-        String dateParam = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         
-        return String.format("%s/weather?q=%s&appid=%s&units=metric&date=%s", 
-                           weatherApiBaseUrl, locationParam, weatherApiKey, dateParam);
+        // Use current weather API (no date parameter supported)
+        // For future dates, we'll use current weather as approximation
+        return String.format("%s/weather?q=%s&appid=%s&units=metric", 
+                           weatherApiBaseUrl, locationParam, weatherApiKey);
     }
     
     private String buildLocationParameter(Location location) {

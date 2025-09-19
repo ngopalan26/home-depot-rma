@@ -1,0 +1,17 @@
+steps:
+  # Build frontend image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/fluent-timing-472621-r3/travel-frontend', './travel-frontend']
+  
+  # Push frontend image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/fluent-timing-472621-r3/travel-frontend']
+  
+  # Deploy to Cloud Run
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: [
+      'run', 'deploy', 'travel-frontend',
+      '--image', 'gcr.io/fluent-timing-472621-r3/travel-frontend',
+      '--region', 'us-central1',
+      '--allow-unauthenticated'
+    ]

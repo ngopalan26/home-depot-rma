@@ -1,0 +1,16 @@
+target/
+!target/*.jar
+*.class
+*.log
+*.tmp
+*.swp
+*.swo
+*~
+.DS_Store
+.idea/
+*.iml
+.vscode/
+*.md
+.git/
+.gitignore
+README.md
