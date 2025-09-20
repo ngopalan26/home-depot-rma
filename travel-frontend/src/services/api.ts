@@ -25,11 +25,11 @@ const getApiBaseUrl = () => {
   
   // If running through ngrok
   if (window.location.hostname.includes('ngrok')) {
-    return 'http://localhost:8081/api';
+    return 'http://localhost:8080/api';
   }
   
   // For local development, use localhost
-  return 'http://localhost:8081/api';
+  return 'http://localhost:8080/api';
 };
 
 const API_BASE_URL = getApiBaseUrl();
