@@ -30,8 +30,8 @@ A smart travel packing assistant that suggests clothing based on weather conditi
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/ngopalan26/home-depot-rma.git
-   cd home-depot-rma
+   git clone https://github.com/ngopalan26/travel-packing-assistant.git
+   cd travel-packing-assistant
    ```
 
 2. **Start Backend**
