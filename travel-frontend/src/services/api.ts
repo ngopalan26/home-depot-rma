@@ -8,7 +8,12 @@ import {
 
 // Determine the API base URL based on the current host
 const getApiBaseUrl = () => {
-  // Check for Cloud Run deployment environment variable
+  // For Cloud Run deployment, use the backend URL directly
+  if (window.location.hostname.includes('travel-frontend-1090615745845.us-central1.run.app')) {
+    return 'https://travel-backend-1090615745845.us-central1.run.app/api';
+  }
+  
+  // Check for environment variable
   if (process.env.REACT_APP_API_BASE_URL) {
     return process.env.REACT_APP_API_BASE_URL;
   }
@@ -18,7 +23,7 @@ const getApiBaseUrl = () => {
     return process.env.REACT_APP_API_URL;
   }
   
-  // If running through ngrok, we need to use the backend URL directly
+  // If running through ngrok
   if (window.location.hostname.includes('ngrok')) {
     return 'http://localhost:8081/api';
   }
@@ -41,6 +46,7 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     console.log(`Making ${config.method?.toUpperCase()} request to ${config.url}`);
+    console.log(`Full URL: ${API_BASE_URL}${config.url}`);
     return config;
   },
   (error) => {
