@@ -8,14 +8,18 @@ import {
 
 // Determine the API base URL based on the current host
 const getApiBaseUrl = () => {
+  // Check for Cloud Run deployment environment variable
+  if (process.env.REACT_APP_API_BASE_URL) {
+    return process.env.REACT_APP_API_BASE_URL;
+  }
+  
+  // Check for local development environment variable
   if (process.env.REACT_APP_API_URL) {
     return process.env.REACT_APP_API_URL;
   }
   
   // If running through ngrok, we need to use the backend URL directly
   if (window.location.hostname.includes('ngrok')) {
-    // For now, we'll use localhost since the proxy isn't working
-    // In production, this would be the backend ngrok URL
     return 'http://localhost:8081/api';
   }
   
