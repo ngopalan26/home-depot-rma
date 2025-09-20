@@ -24,6 +24,22 @@ public class TravelController {
     @Autowired
     private TravelService travelService;
     
+    @GetMapping("/")
+    public ResponseEntity<Map<String, Object>> root() {
+        Map<String, Object> info = new HashMap<>();
+        info.put("service", "Travel Packing Assistant");
+        info.put("version", "1.0.0");
+        info.put("status", "UP");
+        info.put("endpoints", new String[]{
+            "GET /api/travel/health - Health check",
+            "POST /api/travel/plans - Create travel plan",
+            "GET /api/travel/plans/{id} - Get travel plan"
+        });
+        info.put("timestamp", System.currentTimeMillis());
+        
+        return ResponseEntity.ok(info);
+    }
+    
     @PostMapping("/plans")
     public ResponseEntity<?> createTravelPlan(@Valid @RequestBody TravelPlanRequest request) {
         try {
@@ -36,7 +52,7 @@ public class TravelController {
             
         } catch (IllegalArgumentException e) {
             logger.warn("Invalid travel plan request: {}", e.getMessage());
-            return ResponseEntity.badRequest().body(createErrorResponse("VALIDATION_ERROR", e.getMessage()));
+            return ResponseEntity.badRequest().body(createErrorResponse("VALIDATION_ERROR", e.getMessage()));                                                                                                           
             
         } catch (Exception e) {
             logger.error("Error creating travel plan: {}", e.getMessage(), e);
