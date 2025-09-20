@@ -16,21 +16,29 @@ COPY . .
 # Build the React app
 RUN npm run build
 
-# Production stage with Nginx
-FROM nginx:alpine
+# Production stage with a simple HTTP server
+FROM node:18-alpine
+
+# Install serve package globally
+RUN npm install -g serve
 
 # Copy built React app from build stage
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build /app/build /app/build
 
-# Copy simple nginx config
-COPY nginx-simple.conf /etc/nginx/nginx.conf
+# Create a non-root user
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
 
-# Expose port 8080 (Cloud Run uses PORT environment variable)
+# Change ownership
+RUN chown -R nextjs:nodejs /app
+USER nextjs
+
+# Expose port 8080
 EXPOSE 8080
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:8080/ || exit 1
 
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Start the server
+CMD ["serve", "-s", "build", "-l", "8080"]
