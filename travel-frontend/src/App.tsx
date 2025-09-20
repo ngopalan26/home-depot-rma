@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -68,6 +68,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<TravelPlanForm />} />
                 <Route path="/results/:planId" element={<TravelPlanResults />} />
+                <Route path="*" element={<TravelPlanForm />} />
               </Routes>
             </main>
           </div>
